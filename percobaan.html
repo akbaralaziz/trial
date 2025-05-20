@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi To-Do Sederhana dengan Vue.js</title>
+    <!-- Menggunakan CDN Vue.js -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .todo-app {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .todo-input {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .todo-input input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .todo-input button {
+            margin-left: 10px;
+            padding: 10px 15px;
+            background-color: #42b983;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .todo-list {
+            list-style: none;
+            padding: 0;
+        }
+        .todo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .todo-item:last-child {
+            border-bottom: none;
+        }
+        .todo-item button {
+            background-color: #ff5252;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="todo-app">
+        <h1>AKBARRRRR</h1>
+        <div class="todo-input">
+            <input 
+                v-model="newTodo" 
+                @keyup.enter="addTodo" 
+                placeholder="Tambahkan tugas baru..."
+            >
+            <button @click="addTodo">Tambah</button>
+        </div>
+        <ul class="todo-list" v-if="todos.length > 0">
+            <li class="todo-item" v-for="(todo, index) in todos" :key="index">
+                <span>{{ todo }}</span>
+                <button @click="removeTodo(index)">Hapus</button>
+            </li>
+        </ul>
+        <p v-else>Belum ada tugas. Tambahkan tugas baru!</p>
+    </div>
+
+    <script>
+        const { createApp, ref } = Vue;
+
+        createApp({
+            setup() {
+                const newTodo = ref('');
+                const todos = ref([]);
+
+                function addTodo() {
+                    if (newTodo.value.trim() === '') return;
+                    todos.value.push(newTodo.value);
+                    newTodo.value = '';
+                }
+
+                function removeTodo(index) {
+                    todos.value.splice(index, 1);
+                }
+
+                return {
+                    newTodo,
+                    todos,
+                    addTodo,
+                    removeTodo
+                };
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
